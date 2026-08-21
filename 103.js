@@ -1,7 +1,10 @@
-const cart = JSON.parse(
-    localStorage.getItem("cart")
-) || [];
 
+// ================================
+// عناصر صفحه
+// ================================
+
+const cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
 
 const cartButton =
     document.getElementById("cartButton");
@@ -42,28 +45,91 @@ const menuBtn =
 const navMenu =
     document.getElementById("navMenu");
 
+const aboutButton =
+    document.getElementById("aboutButton");
 
-// باز و بسته شدن منوی موبایل
+const aboutOverlay =
+    document.getElementById("aboutOverlay");
 
-menuBtn.addEventListener(
+const aboutClose =
+    document.getElementById("aboutClose");
+
+
+// ================================
+// منوی موبایل
+// ================================
+
+menuBtn.addEventListener("click", () => {
+
+    navMenu.classList.toggle("active");
+
+});
+
+
+navMenu.querySelectorAll("a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        navMenu.classList.remove("active");
+
+    });
+
+});
+
+
+// ================================
+// درباره من
+// ================================
+
+aboutButton.addEventListener("click", () => {
+
+    aboutOverlay.classList.add("active");
+
+    document.body.style.overflow = "hidden";
+
+});
+
+
+function closeAbout() {
+
+    aboutOverlay.classList.remove("active");
+
+    document.body.style.overflow = "";
+
+}
+
+
+aboutClose.addEventListener(
     "click",
-    function () {
+    closeAbout
+);
 
-        navMenu.classList.toggle("active");
+
+aboutOverlay.addEventListener(
+    "click",
+    event => {
+
+        if (event.target === aboutOverlay) {
+
+            closeAbout();
+
+        }
 
     }
 );
 
 
+// ================================
 // افزودن محصول به سبد
+// ================================
 
 document
     .querySelectorAll(".add-to-cart")
-    .forEach(function (button) {
+    .forEach(button => {
 
         button.addEventListener(
             "click",
-            function () {
+            () => {
 
                 const id =
                     button.dataset.id;
@@ -79,11 +145,7 @@ document
 
                 const product =
                     cart.find(
-                        function (item) {
-
-                            return item.id === id;
-
-                        }
+                        item => item.id === id
                     );
 
 
@@ -122,7 +184,9 @@ document
     });
 
 
+// ================================
 // ذخیره سبد خرید
+// ================================
 
 function saveCart() {
 
@@ -134,12 +198,13 @@ function saveCart() {
 }
 
 
-// نمایش سبد
+// ================================
+// نمایش سبد خرید
+// ================================
 
 function updateCart() {
 
     cartItems.innerHTML = "";
-
 
     let count = 0;
 
@@ -151,111 +216,103 @@ function updateCart() {
         cartItems.innerHTML = `
 
             <p class="empty-cart">
-
                 سبد خرید شما خالی است.
-
             </p>
 
         `;
 
+    } else {
+
+        cart.forEach(
+            (item, index) => {
+
+                count += item.quantity;
+
+                total +=
+                    item.price *
+                    item.quantity;
+
+
+                const itemElement =
+                    document.createElement("div");
+
+
+                itemElement.className =
+                    "cart-item";
+
+
+                itemElement.innerHTML = `
+
+                    <div>
+
+                        <h4>
+                            ${item.name}
+                        </h4>
+
+                        <div class="cart-item-price">
+
+                            ${formatPrice(item.price)}
+                            تومان
+
+                        </div>
+
+
+                        <div class="quantity-controls">
+
+                            <button
+                                class="increase"
+                                data-index="${index}">
+
+                                +
+
+                            </button>
+
+
+                            <span>
+                                ${item.quantity}
+                            </span>
+
+
+                            <button
+                                class="decrease"
+                                data-index="${index}">
+
+                                −
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="remove-item"
+                        data-index="${index}"
+                        aria-label="حذف محصول">
+
+                        🗑️
+
+                    </button>
+
+                `;
+
+
+                cartItems.appendChild(
+                    itemElement
+                );
+
+            }
+        );
+
     }
-
-
-    cart.forEach(
-        function (item, index) {
-
-            count += item.quantity;
-
-            total +=
-                item.price *
-                item.quantity;
-
-
-            const itemElement =
-                document.createElement("div");
-
-
-            itemElement.className =
-                "cart-item";
-
-
-            itemElement.innerHTML = `
-
-                <div>
-
-                    <h4>
-                        ${item.name}
-                    </h4>
-
-                    <div class="cart-item-price">
-
-                        ${formatPrice(
-                            item.price
-                        )}
-
-                        تومان
-
-                    </div>
-
-
-                    <div class="quantity-controls">
-
-                        <button
-                            class="increase"
-                            data-index="${index}">
-
-                            +
-
-                        </button>
-
-
-                        <span>
-
-                            ${item.quantity}
-
-                        </span>
-
-
-                        <button
-                            class="decrease"
-                            data-index="${index}">
-
-                            −
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    class="remove-item"
-                    data-index="${index}">
-
-                    🗑️
-
-                </button>
-
-            `;
-
-
-            cartItems.appendChild(
-                itemElement
-            );
-
-        }
-    );
 
 
     cartCount.textContent = count;
 
 
     cartTotal.textContent =
-
-        formatPrice(total) +
-
-        " تومان";
+        `${formatPrice(total)} تومان`;
 
 
     saveCart();
@@ -263,15 +320,23 @@ function updateCart() {
 }
 
 
-// کلیک روی دکمه‌های داخل سبد
+// ================================
+// کنترل سبد خرید
+// ================================
 
 cartItems.addEventListener(
     "click",
-    function (event) {
-
+    event => {
 
         const index =
-            event.target.dataset.index;
+            Number(
+                event.target.dataset.index
+            );
+
+
+        if (Number.isNaN(index)) {
+            return;
+        }
 
 
         if (
@@ -328,47 +393,56 @@ cartItems.addEventListener(
 );
 
 
+// ================================
 // باز کردن سبد
+// ================================
 
 cartButton.addEventListener(
     "click",
-    function () {
+    () => {
 
         cartOverlay.classList.add(
             "active"
         );
 
+        document.body.style.overflow =
+            "hidden";
+
     }
 );
 
 
+// ================================
 // بستن سبد
+// ================================
+
+function closeCartPanel() {
+
+    cartOverlay.classList.remove(
+        "active"
+    );
+
+    document.body.style.overflow =
+        "";
+
+}
+
 
 closeCart.addEventListener(
     "click",
-    function () {
-
-        cartOverlay.classList.remove(
-            "active"
-        );
-
-    }
+    closeCartPanel
 );
 
 
-// بستن با کلیک روی پس‌زمینه
-
 cartOverlay.addEventListener(
     "click",
-    function (event) {
+    event => {
 
         if (
             event.target === cartOverlay
         ) {
 
-            cartOverlay.classList.remove(
-                "active"
-            );
+            closeCartPanel();
 
         }
 
@@ -376,15 +450,15 @@ cartOverlay.addEventListener(
 );
 
 
-// رفتن به فرم سفارش
+// ================================
+// باز کردن فرم سفارش
+// ================================
 
 checkoutButton.addEventListener(
     "click",
-    function () {
+    () => {
 
-        if (
-            cart.length === 0
-        ) {
+        if (cart.length === 0) {
 
             showToast(
                 "سبد خرید خالی است."
@@ -395,70 +469,119 @@ checkoutButton.addEventListener(
         }
 
 
-        cartOverlay.classList.remove(
-            "active"
-        );
+        closeCartPanel();
 
 
         checkoutOverlay.classList.add(
             "active"
         );
 
+
+        document.body.style.overflow =
+            "hidden";
+
     }
 );
 
 
+// ================================
 // بستن فرم سفارش
+// ================================
+
+function closeCheckoutPanel() {
+
+    checkoutOverlay.classList.remove(
+        "active"
+    );
+
+    document.body.style.overflow =
+        "";
+
+}
+
 
 closeCheckout.addEventListener(
     "click",
-    function () {
+    closeCheckoutPanel
+);
 
-        checkoutOverlay.classList.remove(
-            "active"
-        );
+
+checkoutOverlay.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target === checkoutOverlay
+        ) {
+
+            closeCheckoutPanel();
+
+        }
 
     }
 );
 
 
+// ================================
 // ثبت سفارش
+// ================================
 
 checkoutForm.addEventListener(
     "submit",
-    function (event) {
+    event => {
 
         event.preventDefault();
 
 
         const customerName =
-            document.getElementById(
-                "customerName"
-            ).value;
+            document
+                .getElementById(
+                    "customerName"
+                )
+                .value
+                .trim();
 
 
         const customerPhone =
-            document.getElementById(
-                "customerPhone"
-            ).value;
+            document
+                .getElementById(
+                    "customerPhone"
+                )
+                .value
+                .trim();
+
+
+        const customerEmail =
+            document
+                .getElementById(
+                    "customerEmail"
+                )
+                .value
+                .trim();
+
+
+        if (
+            !customerName ||
+            !customerPhone
+        ) {
+
+            showToast(
+                "لطفاً اطلاعات ضروری را وارد کنید."
+            );
+
+            return;
+
+        }
 
 
         const total =
-
             cart.reduce(
-                function (
-                    sum,
-                    item
-                ) {
+                (sum, item) => {
 
                     return (
-
                         sum +
-
                         item.price *
-
                         item.quantity
-
                     );
 
                 },
@@ -467,31 +590,31 @@ checkoutForm.addEventListener(
             );
 
 
-        showToast(
-            "سفارش شما با موفقیت ثبت شد! 🎉"
-        );
-
-
         alert(
 
             "نام مشتری: " +
-
             customerName +
 
             "\nشماره تماس: " +
-
             customerPhone +
 
+            "\nایمیل: " +
+            (
+                customerEmail ||
+                "ثبت نشده"
+            ) +
+
             "\nمبلغ سفارش: " +
-
             formatPrice(total) +
-
             " تومان"
 
         );
 
 
-        // حذف سبد پس از ثبت سفارش
+        showToast(
+            "سفارش شما با موفقیت ثبت شد! 🎉"
+        );
+
 
         cart.length = 0;
 
@@ -504,15 +627,15 @@ checkoutForm.addEventListener(
         checkoutForm.reset();
 
 
-        checkoutOverlay.classList.remove(
-            "active"
-        );
+        closeCheckoutPanel();
 
     }
 );
 
 
+// ================================
 // فرمت قیمت
+// ================================
 
 function formatPrice(number) {
 
@@ -523,11 +646,17 @@ function formatPrice(number) {
 }
 
 
-// نمایش پیام
+// ================================
+// پیام
+// ================================
+
+let toastTimer;
+
 
 function showToast(message) {
 
-    toast.textContent = message;
+    toast.textContent =
+        message;
 
 
     toast.classList.add(
@@ -535,21 +664,80 @@ function showToast(message) {
     );
 
 
-    setTimeout(
-        function () {
-
-            toast.classList.remove(
-                "show"
-            );
-
-        },
-
-        3000
+    clearTimeout(
+        toastTimer
     );
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+
+            3000
+        );
 
 }
 
 
-// راه‌اندازی اولیه
+// ================================
+// کلید Escape
+// ================================
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key !== "Escape"
+        ) {
+            return;
+        }
+
+
+        if (
+            aboutOverlay.classList.contains(
+                "active"
+            )
+        ) {
+
+            closeAbout();
+
+        }
+
+
+        if (
+            cartOverlay.classList.contains(
+                "active"
+            )
+        ) {
+
+            closeCartPanel();
+
+        }
+
+
+        if (
+            checkoutOverlay.classList.contains(
+                "active"
+            )
+        ) {
+
+            closeCheckoutPanel();
+
+        }
+
+    }
+);
+
+
+// ================================
+// شروع برنامه
+// ================================
 
 updateCart();
