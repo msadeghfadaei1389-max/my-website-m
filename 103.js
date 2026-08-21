@@ -1,28 +1,18 @@
+/* =========================
+   عناصر اصلی
+========================= */
 
-// ================================
-// عناصر صفحه
-// ================================
+const cart = JSON.parse(
+    localStorage.getItem("cart") || "[]"
+);
 
-const cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
+const cartButton = document.getElementById("cartButton");
+const cartOverlay = document.getElementById("cartOverlay");
+const closeCart = document.getElementById("closeCart");
 
-const cartButton =
-    document.getElementById("cartButton");
-
-const cartOverlay =
-    document.getElementById("cartOverlay");
-
-const closeCart =
-    document.getElementById("closeCart");
-
-const cartItems =
-    document.getElementById("cartItems");
-
-const cartCount =
-    document.getElementById("cartCount");
-
-const cartTotal =
-    document.getElementById("cartTotal");
+const cartItems = document.getElementById("cartItems");
+const cartCount = document.getElementById("cartCount");
+const cartTotal = document.getElementById("cartTotal");
 
 const checkoutButton =
     document.getElementById("checkoutButton");
@@ -45,58 +35,54 @@ const menuBtn =
 const navMenu =
     document.getElementById("navMenu");
 
+
+/* =========================
+   درباره من - Modal
+========================= */
+
 const aboutButton =
     document.getElementById("aboutButton");
 
-const aboutOverlay =
-    document.getElementById("aboutOverlay");
+const aboutModal =
+    document.getElementById("aboutModal");
 
 const aboutClose =
     document.getElementById("aboutClose");
 
-
-// ================================
-// منوی موبایل
-// ================================
-
-menuBtn.addEventListener("click", () => {
-
-    navMenu.classList.toggle("active");
-
-});
+const aboutDone =
+    document.getElementById("aboutDone");
 
 
-navMenu.querySelectorAll("a").forEach(link => {
+function openAbout() {
 
-    link.addEventListener("click", () => {
+    aboutModal.classList.add("active");
 
-        navMenu.classList.remove("active");
-
-    });
-
-});
-
-
-// ================================
-// درباره من
-// ================================
-
-aboutButton.addEventListener("click", () => {
-
-    aboutOverlay.classList.add("active");
+    aboutModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
 
     document.body.style.overflow = "hidden";
-
-});
+}
 
 
 function closeAbout() {
 
-    aboutOverlay.classList.remove("active");
+    aboutModal.classList.remove("active");
+
+    aboutModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
 
     document.body.style.overflow = "";
-
 }
+
+
+aboutButton.addEventListener(
+    "click",
+    openAbout
+);
 
 
 aboutClose.addEventListener(
@@ -105,49 +91,98 @@ aboutClose.addEventListener(
 );
 
 
-aboutOverlay.addEventListener(
+aboutDone.addEventListener(
     "click",
-    event => {
+    closeAbout
+);
 
-        if (event.target === aboutOverlay) {
 
+/* بستن Modal با کلیک بیرون */
+
+aboutModal.addEventListener(
+    "click",
+    function(event) {
+
+        if (event.target === aboutModal) {
             closeAbout();
-
         }
 
     }
 );
 
 
-// ================================
-// افزودن محصول به سبد
-// ================================
+/* بستن با دکمه Escape */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape" &&
+            aboutModal.classList.contains("active")
+        ) {
+            closeAbout();
+        }
+
+    }
+);
+
+
+/* =========================
+   منوی موبایل
+========================= */
+
+menuBtn.addEventListener(
+    "click",
+    function() {
+
+        navMenu.classList.toggle("active");
+
+    }
+);
+
+
+/* بستن منو بعد از انتخاب لینک */
+
+navMenu.querySelectorAll("a").forEach(
+    function(link) {
+
+        link.addEventListener(
+            "click",
+            function() {
+
+                navMenu.classList.remove("active");
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================
+   افزودن محصول
+========================= */
 
 document
     .querySelectorAll(".add-to-cart")
-    .forEach(button => {
+    .forEach(function(button) {
 
         button.addEventListener(
             "click",
-            () => {
+            function() {
 
-                const id =
-                    button.dataset.id;
+                const id = button.dataset.id;
+                const name = button.dataset.name;
+                const price = Number(
+                    button.dataset.price
+                );
 
-                const name =
-                    button.dataset.name;
-
-                const price =
-                    Number(
-                        button.dataset.price
-                    );
-
-
-                const product =
-                    cart.find(
-                        item => item.id === id
-                    );
-
+                const product = cart.find(
+                    function(item) {
+                        return item.id === id;
+                    }
+                );
 
                 if (product) {
 
@@ -156,22 +191,15 @@ document
                 } else {
 
                     cart.push({
-
                         id: id,
-
                         name: name,
-
                         price: price,
-
                         quantity: 1
-
                     });
 
                 }
 
-
                 saveCart();
-
                 updateCart();
 
                 showToast(
@@ -184,9 +212,9 @@ document
     });
 
 
-// ================================
-// ذخیره سبد خرید
-// ================================
+/* =========================
+   ذخیره سبد
+========================= */
 
 function saveCart() {
 
@@ -198,146 +226,111 @@ function saveCart() {
 }
 
 
-// ================================
-// نمایش سبد خرید
-// ================================
+/* =========================
+   نمایش سبد
+========================= */
 
 function updateCart() {
 
     cartItems.innerHTML = "";
 
     let count = 0;
-
     let total = 0;
-
 
     if (cart.length === 0) {
 
         cartItems.innerHTML = `
-
             <p class="empty-cart">
                 سبد خرید شما خالی است.
             </p>
-
         `;
-
-    } else {
-
-        cart.forEach(
-            (item, index) => {
-
-                count += item.quantity;
-
-                total +=
-                    item.price *
-                    item.quantity;
-
-
-                const itemElement =
-                    document.createElement("div");
-
-
-                itemElement.className =
-                    "cart-item";
-
-
-                itemElement.innerHTML = `
-
-                    <div>
-
-                        <h4>
-                            ${item.name}
-                        </h4>
-
-                        <div class="cart-item-price">
-
-                            ${formatPrice(item.price)}
-                            تومان
-
-                        </div>
-
-
-                        <div class="quantity-controls">
-
-                            <button
-                                class="increase"
-                                data-index="${index}">
-
-                                +
-
-                            </button>
-
-
-                            <span>
-                                ${item.quantity}
-                            </span>
-
-
-                            <button
-                                class="decrease"
-                                data-index="${index}">
-
-                                −
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-                    <button
-                        class="remove-item"
-                        data-index="${index}"
-                        aria-label="حذف محصول">
-
-                        🗑️
-
-                    </button>
-
-                `;
-
-
-                cartItems.appendChild(
-                    itemElement
-                );
-
-            }
-        );
 
     }
 
 
+    cart.forEach(
+        function(item, index) {
+
+            count += item.quantity;
+
+            total +=
+                item.price *
+                item.quantity;
+
+            const itemElement =
+                document.createElement("div");
+
+            itemElement.className =
+                "cart-item";
+
+            itemElement.innerHTML = `
+
+                <div>
+
+                    <h4>
+                        ${item.name}
+                    </h4>
+
+                    <div class="cart-item-price">
+                        ${formatPrice(item.price)}
+                        تومان
+                    </div>
+
+                    <div class="quantity-controls">
+
+                        <button
+                            class="increase"
+                            data-index="${index}">
+                            +
+                        </button>
+
+                        <span>
+                            ${item.quantity}
+                        </span>
+
+                        <button
+                            class="decrease"
+                            data-index="${index}">
+                            −
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="remove-item"
+                    data-index="${index}">
+                    🗑️
+                </button>
+            `;
+
+            cartItems.appendChild(itemElement);
+
+        }
+    );
+
+
     cartCount.textContent = count;
 
-
     cartTotal.textContent =
-        `${formatPrice(total)} تومان`;
-
+        formatPrice(total) + " تومان";
 
     saveCart();
 
 }
 
 
-// ================================
-// کنترل سبد خرید
-// ================================
+/* =========================
+   کنترل تعداد محصولات
+========================= */
 
 cartItems.addEventListener(
     "click",
-    event => {
+    function(event) {
 
         const index =
-            Number(
-                event.target.dataset.index
-            );
-
-
-        if (Number.isNaN(index)) {
-            return;
-        }
-
+            Number(event.target.dataset.index);
 
         if (
             event.target.classList.contains(
@@ -358,15 +351,9 @@ cartItems.addEventListener(
 
             cart[index].quantity--;
 
+            if (cart[index].quantity <= 0) {
 
-            if (
-                cart[index].quantity <= 0
-            ) {
-
-                cart.splice(
-                    index,
-                    1
-                );
+                cart.splice(index, 1);
 
             }
 
@@ -379,13 +366,9 @@ cartItems.addEventListener(
             )
         ) {
 
-            cart.splice(
-                index,
-                1
-            );
+            cart.splice(index, 1);
 
         }
-
 
         updateCart();
 
@@ -393,56 +376,43 @@ cartItems.addEventListener(
 );
 
 
-// ================================
-// باز کردن سبد
-// ================================
+/* =========================
+   باز کردن سبد
+========================= */
 
 cartButton.addEventListener(
     "click",
-    () => {
+    function() {
 
-        cartOverlay.classList.add(
-            "active"
-        );
-
-        document.body.style.overflow =
-            "hidden";
+        cartOverlay.classList.add("active");
 
     }
 );
 
 
-// ================================
-// بستن سبد
-// ================================
-
-function closeCartPanel() {
-
-    cartOverlay.classList.remove(
-        "active"
-    );
-
-    document.body.style.overflow =
-        "";
-
-}
-
+/* بستن سبد */
 
 closeCart.addEventListener(
     "click",
-    closeCartPanel
+    function() {
+
+        cartOverlay.classList.remove("active");
+
+    }
 );
 
 
+/* بستن با کلیک بیرون */
+
 cartOverlay.addEventListener(
     "click",
-    event => {
+    function(event) {
 
-        if (
-            event.target === cartOverlay
-        ) {
+        if (event.target === cartOverlay) {
 
-            closeCartPanel();
+            cartOverlay.classList.remove(
+                "active"
+            );
 
         }
 
@@ -450,13 +420,13 @@ cartOverlay.addEventListener(
 );
 
 
-// ================================
-// باز کردن فرم سفارش
-// ================================
+/* =========================
+   فرم سفارش
+========================= */
 
 checkoutButton.addEventListener(
     "click",
-    () => {
+    function() {
 
         if (cart.length === 0) {
 
@@ -468,115 +438,53 @@ checkoutButton.addEventListener(
 
         }
 
-
-        closeCartPanel();
-
+        cartOverlay.classList.remove(
+            "active"
+        );
 
         checkoutOverlay.classList.add(
             "active"
         );
 
-
-        document.body.style.overflow =
-            "hidden";
-
     }
 );
 
 
-// ================================
-// بستن فرم سفارش
-// ================================
-
-function closeCheckoutPanel() {
-
-    checkoutOverlay.classList.remove(
-        "active"
-    );
-
-    document.body.style.overflow =
-        "";
-
-}
-
+/* بستن فرم */
 
 closeCheckout.addEventListener(
     "click",
-    closeCheckoutPanel
-);
+    function() {
 
-
-checkoutOverlay.addEventListener(
-    "click",
-    event => {
-
-        if (
-            event.target === checkoutOverlay
-        ) {
-
-            closeCheckoutPanel();
-
-        }
+        checkoutOverlay.classList.remove(
+            "active"
+        );
 
     }
 );
 
 
-// ================================
-// ثبت سفارش
-// ================================
+/* ثبت سفارش */
 
 checkoutForm.addEventListener(
     "submit",
-    event => {
+    function(event) {
 
         event.preventDefault();
 
-
         const customerName =
-            document
-                .getElementById(
-                    "customerName"
-                )
-                .value
-                .trim();
-
+            document.getElementById(
+                "customerName"
+            ).value.trim();
 
         const customerPhone =
-            document
-                .getElementById(
-                    "customerPhone"
-                )
-                .value
-                .trim();
-
-
-        const customerEmail =
-            document
-                .getElementById(
-                    "customerEmail"
-                )
-                .value
-                .trim();
-
-
-        if (
-            !customerName ||
-            !customerPhone
-        ) {
-
-            showToast(
-                "لطفاً اطلاعات ضروری را وارد کنید."
-            );
-
-            return;
-
-        }
-
+            document.getElementById(
+                "customerPhone"
+            ).value.trim();
 
         const total =
             cart.reduce(
-                (sum, item) => {
+                function(sum, item) {
 
                     return (
                         sum +
@@ -585,29 +493,20 @@ checkoutForm.addEventListener(
                     );
 
                 },
-
                 0
             );
 
 
         alert(
-
             "نام مشتری: " +
             customerName +
 
             "\nشماره تماس: " +
             customerPhone +
 
-            "\nایمیل: " +
-            (
-                customerEmail ||
-                "ثبت نشده"
-            ) +
-
             "\nمبلغ سفارش: " +
             formatPrice(total) +
             " تومان"
-
         );
 
 
@@ -618,24 +517,22 @@ checkoutForm.addEventListener(
 
         cart.length = 0;
 
-
         saveCart();
-
         updateCart();
-
 
         checkoutForm.reset();
 
-
-        closeCheckoutPanel();
+        checkoutOverlay.classList.remove(
+            "active"
+        );
 
     }
 );
 
 
-// ================================
-// فرمت قیمت
-// ================================
+/* =========================
+   فرمت قیمت
+========================= */
 
 function formatPrice(number) {
 
@@ -646,98 +543,30 @@ function formatPrice(number) {
 }
 
 
-// ================================
-// پیام
-// ================================
-
-let toastTimer;
-
+/* =========================
+   پیام
+========================= */
 
 function showToast(message) {
 
-    toast.textContent =
-        message;
+    toast.textContent = message;
 
+    toast.classList.add("show");
 
-    toast.classList.add(
-        "show"
+    setTimeout(
+        function() {
+
+            toast.classList.remove("show");
+
+        },
+        3000
     );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-
-            3000
-        );
 
 }
 
 
-// ================================
-// کلید Escape
-// ================================
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key !== "Escape"
-        ) {
-            return;
-        }
-
-
-        if (
-            aboutOverlay.classList.contains(
-                "active"
-            )
-        ) {
-
-            closeAbout();
-
-        }
-
-
-        if (
-            cartOverlay.classList.contains(
-                "active"
-            )
-        ) {
-
-            closeCartPanel();
-
-        }
-
-
-        if (
-            checkoutOverlay.classList.contains(
-                "active"
-            )
-        ) {
-
-            closeCheckoutPanel();
-
-        }
-
-    }
-);
-
-
-// ================================
-// شروع برنامه
-// ================================
+/* =========================
+   شروع سایت
+========================= */
 
 updateCart();
