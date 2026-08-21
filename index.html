@@ -1,196 +1,624 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>قرآن کریم | تلاوت و ترجمه</title>
+    <title>محمد صادق | وب‌سایت شخصی و فروشگاه</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="101.css">
 </head>
 
 <body>
 
-<header class="header">
-    <div>
-        <h1>📖 قرآن کریم</h1>
-        <p>تلاوت، ترجمه و جستجوی آیات</p>
+<header>
+
+    <div class="logo">
+        <div class="logo-icon">M</div>
+        <span>وب‌سایت من</span>
     </div>
 
-    <button id="darkModeBtn" class="icon-btn">🌙</button>
+    <button
+        class="menu-btn"
+        id="menuBtn"
+        type="button"
+        aria-label="منو">
+
+        ☰
+
+    </button>
+
+    <nav id="navMenu">
+        <a href="#home">خانه</a>
+        <a href="#services">خدمات</a>
+        <a href="#shop">فروشگاه</a>
+        <a href="#contact">تماس</a>
+    </nav>
+
+    <button
+        class="cart-button"
+        id="cartButton"
+        type="button">
+
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+
+    </button>
+
 </header>
 
-<main class="container">
 
-    <section class="controls">
+<main>
 
-        <div class="control">
-            <label for="surahSelect">سوره</label>
-            <select id="surahSelect">
-                <option value="">در حال دریافت سوره‌ها...</option>
-            </select>
-        </div>
+    <!-- خانه -->
 
-        <div class="control">
-            <label for="reciterSelect">قاری</label>
-            <select id="reciterSelect">
+    <section class="hero" id="home">
 
-                <option value="ar.alafasy">
-                    مشاری راشد العفاسی
-                </option>
+        <div class="hero-text">
 
-                <option value="ar.abdulbasitmurattal">
-                    عبدالباسط عبدالصمد
-                </option>
-
-                <option value="ar.husary">
-                    محمود خلیل الحصری
-                </option>
-
-                <option value="ar.minshawi">
-                    محمد صدیق المنشاوی
-                </option>
-
-                <option value="ar.muhammadayyoub">
-                    محمد ایوب
-                </option>
-
-                <option value="ar.mahermuaiqly">
-                    ماهر المعيقلي
-                </option>
-
-                <option value="ar.saadsheqam">
-                    سعد الغامدی
-                </option>
-
-                <option value="ar.abdurrahmaansudais">
-                    عبدالرحمن السدیس
-                </option>
-
-                <option value="ar.yasserdossary">
-                    یاسر الدوسری
-                </option>
-
-            </select>
-        </div>
-
-        <div class="control">
-            <label for="translationSelect">ترجمه</label>
-
-            <select id="translationSelect">
-
-                <option value="fa.makarem">
-                    مکارم شیرازی
-                </option>
-
-                <option value="fa.fooladvand">
-                    فولادوند
-                </option>
-
-                <option value="fa.ansarian">
-                    انصاریان
-                </option>
-
-                <option value="fa.ayati">
-                    آیتی
-                </option>
-
-            </select>
-        </div>
-
-    </section>
-
-
-    <section class="search-box">
-
-        <input
-            id="searchInput"
-            type="search"
-            placeholder="جستجو در متن آیات..."
-        >
-
-        <button id="searchBtn">
-            🔎 جستجو
-        </button>
-
-    </section>
-
-
-    <section class="player">
-
-        <div class="player-info">
-            <strong id="playerTitle">
-                آماده پخش
-            </strong>
-
-            <span id="playerStatus">
-                یک سوره را انتخاب کنید
+            <span class="welcome">
+                به وب‌سایت من خوش آمدید 👋
             </span>
+
+            <h1>
+                سلام، من
+                <span>محمد صادق</span>
+                هستم.
+            </h1>
+
+            <p>
+                به دنیای من خوش آمدید؛
+                جایی برای یادگیری، خلاقیت
+                و ساختن ایده‌های جدید.
+            </p>
+
+            <div class="buttons">
+
+                <button
+                    class="primary"
+                    id="aboutButton"
+                    type="button">
+
+                    درباره من
+
+                </button>
+
+                <a
+                    href="#shop"
+                    class="secondary">
+
+                    مشاهده فروشگاه
+
+                </a>
+
+            </div>
+
         </div>
 
-        <audio id="audioPlayer" controls preload="none"></audio>
 
-        <div class="player-buttons">
+        <div class="profile-card">
 
-            <button id="prevBtn">
-                ⏮ آیه قبل
-            </button>
+            <div class="avatar">
+                M
+            </div>
 
-            <button id="playSurahBtn" class="main-btn">
-                ▶ پخش کل سوره
-            </button>
+            <h2>
+                وب‌سایت من
+            </h2>
 
-            <button id="nextBtn">
-                آیه بعد ⏭
-            </button>
+            <p>
+                طراح و علاقه‌مند به وب
+            </p>
+
+            <div class="skills">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+            </div>
 
         </div>
-
-        <button id="stopBtn" class="stop-btn">
-            ⏹ توقف
-        </button>
 
     </section>
 
 
-    <section class="surah-header">
+    <!-- خدمات -->
 
-        <h2 id="surahName">
-            قرآن کریم
+    <section
+        class="section-title"
+        id="services">
+
+        <span class="section-tag">
+            خدمات من
+        </span>
+
+        <h2>
+            طراحی و
+            <span>خلاقیت</span>
         </h2>
 
-        <p id="surahInfo">
-            سوره‌ای را انتخاب کنید
+        <p>
+            روی هر بخش کلیک کنید.
         </p>
 
     </section>
 
 
-    <section id="ayahContainer" class="ayah-container">
+    <section class="cards">
 
-        <div class="loading">
-            برای شروع، یک سوره را انتخاب کنید.
+        <div class="card">
+            <div class="icon">🌐</div>
+
+            <h3>
+                طراحی سایت
+            </h3>
+
+            <p>
+                طراحی سایت‌های شخصی،
+                شرکتی و فروشگاهی.
+            </p>
+        </div>
+
+
+        <div class="card">
+            <div class="icon">📁</div>
+
+            <h3>
+                فایل و پروژه
+            </h3>
+
+            <p>
+                فایل‌ها و پروژه‌های آماده
+                HTML، CSS و JavaScript.
+            </p>
+        </div>
+
+
+        <div class="card">
+            <div class="icon">💬</div>
+
+            <h3>
+                ارتباط با من
+            </h3>
+
+            <p>
+                برای ارتباط می‌توانید
+                از شبکه‌های اجتماعی استفاده کنید.
+            </p>
         </div>
 
     </section>
 
+
+    <!-- فروشگاه -->
+
+    <section
+        class="shop-section"
+        id="shop">
+
+        <div class="section-title">
+
+            <span class="section-tag">
+                فروشگاه
+            </span>
+
+            <h2>
+                محصولات و
+                <span>خدمات</span>
+            </h2>
+
+            <p>
+                محصول یا خدمت موردنظر خود را انتخاب کنید.
+            </p>
+
+        </div>
+
+
+        <div class="products" id="products">
+
+            <article class="product-card">
+
+                <div class="product-icon">🌐</div>
+
+                <span class="product-type">
+                    خدمات وب
+                </span>
+
+                <h3>
+                    طراحی سایت شخصی
+                </h3>
+
+                <p>
+                    طراحی یک سایت شخصی زیبا و واکنش‌گرا.
+                </p>
+
+                <div class="price">
+                    ۱,۵۰۰,۰۰۰ تومان
+                </div>
+
+                <button
+                    class="add-to-cart"
+                    type="button"
+                    data-id="personal"
+                    data-name="طراحی سایت شخصی"
+                    data-price="1500000">
+
+                    افزودن به سبد 🛒
+
+                </button>
+
+            </article>
+
+
+            <article class="product-card">
+
+                <div class="product-icon">🛒</div>
+
+                <span class="product-type">
+                    خدمات وب
+                </span>
+
+                <h3>
+                    طراحی سایت فروشگاهی
+                </h3>
+
+                <p>
+                    طراحی فروشگاه اینترنتی با امکانات حرفه‌ای.
+                </p>
+
+                <div class="price">
+                    ۳,۰۰۰,۰۰۰ تومان
+                </div>
+
+                <button
+                    class="add-to-cart"
+                    type="button"
+                    data-id="store"
+                    data-name="طراحی سایت فروشگاهی"
+                    data-price="3000000">
+
+                    افزودن به سبد 🛒
+
+                </button>
+
+            </article>
+
+
+            <article class="product-card">
+
+                <div class="product-icon">💻</div>
+
+                <span class="product-type">
+                    فایل و پروژه
+                </span>
+
+                <h3>
+                    پروژه HTML و CSS
+                </h3>
+
+                <p>
+                    پروژه آماده و قابل ویرایش HTML و CSS.
+                </p>
+
+                <div class="price">
+                    ۲۰۰,۰۰۰ تومان
+                </div>
+
+                <button
+                    class="add-to-cart"
+                    type="button"
+                    data-id="htmlcss"
+                    data-name="پروژه HTML و CSS"
+                    data-price="200000">
+
+                    افزودن به سبد 🛒
+
+                </button>
+
+            </article>
+
+
+            <article class="product-card">
+
+                <div class="product-icon">📦</div>
+
+                <span class="product-type">
+                    فایل
+                </span>
+
+                <h3>
+                    فایل آماده
+                </h3>
+
+                <p>
+                    مجموعه فایل‌های آماده برای استفاده و ویرایش.
+                </p>
+
+                <div class="price">
+                    ۱۰۰,۰۰۰ تومان
+                </div>
+
+                <button
+                    class="add-to-cart"
+                    type="button"
+                    data-id="file"
+                    data-name="فایل آماده"
+                    data-price="100000">
+
+                    افزودن به سبد 🛒
+
+                </button>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- تماس -->
+
+    <section
+        class="contact-section"
+        id="contact">
+
+        <div class="section-title">
+
+            <span class="section-tag">
+                ارتباط
+            </span>
+
+            <h2>
+                با من در ارتباط باشید
+            </h2>
+
+        </div>
+
+
+        <div class="contact-links">
+
+            <a
+                href="https://t.me/mohammadsadegh_fadaei"
+                target="_blank"
+                rel="noopener"
+                class="contact-link telegram">
+
+                تلگرام
+
+            </a>
+
+
+            <a
+                href="https://eitaa.com/mohammadsadeghfadaei1389"
+                target="_blank"
+                rel="noopener"
+                class="contact-link eitaa">
+
+                ایتا
+            </a>
+<a
+    href="https://ble.ir/m_sadegh_fadaei"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="contact-link bale"
+>
+    بله
+</a>
+        </div>
+
+    </section>
 </main>
+
+<!-- =========================
+     پنجره درباره من
+========================= -->
+
+<div
+    class="about-modal"
+    id="aboutModal"
+    aria-hidden="true">
+
+    <div class="about-box">
+
+        <button
+            class="about-close"
+            id="aboutClose"
+            type="button"
+            aria-label="بستن">
+
+            ×
+
+        </button>
+
+        <div class="about-icon">
+            M
+        </div>
+
+        <span class="about-tag">
+            درباره من
+        </span>
+
+        <h2>
+            سلام، من محمد صادق هستم 👋
+        </h2>
+
+        <p>
+            به یادگیری، طراحی سایت و ساختن ایده‌های جدید علاقه دارم.
+            هدفم این است که با یادگیری مهارت‌های مختلف،
+            پروژه‌های خلاقانه و کاربردی بسازم و هر روز
+            یک قدم به بهتر شدن نزدیک‌تر شوم.
+        </p>
+
+        <div class="about-skills">
+
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>Web Design</span>
+
+        </div>
+
+        <button
+            class="about-done"
+            id="aboutDone"
+            type="button">
+
+            بستن پنجره
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     سبد خرید
+========================= -->
+
+<div
+    class="cart-overlay"
+    id="cartOverlay">
+
+    <aside class="cart-panel">
+
+        <div class="cart-header">
+
+            <h2>
+                🛒 سبد خرید
+            </h2>
+
+            <button
+                id="closeCart"
+                type="button">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="cartItems"
+            class="cart-items">
+
+        </div>
+
+
+        <div class="cart-footer">
+
+            <div class="total">
+
+                <span>
+                    مبلغ کل:
+                </span>
+
+                <strong id="cartTotal">
+                    ۰ تومان
+                </strong>
+
+            </div>
+
+
+            <button
+                id="checkoutButton"
+                type="button"
+                class="checkout-button">
+
+                ادامه و ثبت سفارش
+
+            </button>
+
+        </div>
+
+    </aside>
+
+</div>
+
+
+<!-- فرم سفارش -->
+
+<div
+    class="checkout-overlay"
+    id="checkoutOverlay">
+
+    <div class="checkout-box">
+
+        <button
+            class="close-checkout"
+            id="closeCheckout"
+            type="button">
+
+            ×
+
+        </button>
+
+        <h2>
+            🧾 تکمیل سفارش
+        </h2>
+
+        <p>
+            اطلاعات خود را وارد کنید.
+        </p>
+
+        <form id="checkoutForm">
+
+            <input
+                id="customerName"
+                type="text"
+                placeholder="نام و نام خانوادگی"
+                required>
+
+            <input
+                id="customerPhone"
+                type="tel"
+                inputmode="tel"
+                placeholder="شماره تلفن"
+                required>
+
+            <input
+                id="customerEmail"
+                type="email"
+                placeholder="ایمیل (اختیاری)">
+
+            <button
+                type="submit"
+                class="order-button">
+
+                ثبت سفارش
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- پیام -->
+
+<div
+    class="toast"
+    id="toast">
+</div>
 
 
 <footer>
 
-    <p>
-        قرآن کریم | طراحی شده برای مطالعه و تلاوت
-    </p>
+    <h3>
+        محمد صادق
+    </h3>
 
-    <p class="small">
-        اطلاعات قرآن از سرویس عمومی Al Quran Cloud دریافت می‌شود.
+    <p>
+        © 2026 تمامی حقوق محفوظ است.
     </p>
 
 </footer>
 
 
-<script src="script.js"></script>
+<script src="103.js"></script>
 
 </body>
 </html>
